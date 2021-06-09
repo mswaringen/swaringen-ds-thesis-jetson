@@ -69,7 +69,7 @@ def img_2_vec(data_path):
     print('Vectors created!')
     df['sample_indices'] = df['sample_indices'].astype(int)
 
-    return df
+    return df,vec_mat
 
 def main(args):
 
@@ -79,7 +79,7 @@ def main(args):
     # data_path = "data/minneapple/"
     data_path = args.data_path
 
-    df = img_2_vec(data_path)
+    df,vec_mat = img_2_vec(data_path)
     # !mkdir data/minneapple/vectors
     df.to_csv(data_path + 'vectors/res18_vector_matrix_train_filenames.csv',index=False)
     np.save(data_path + 'vectors/res18_vector_matrix_train.npy', vec_mat)
