@@ -107,7 +107,7 @@ def baseline_test(files_df,count,base_df,scores_df):
     print('KMeans Silhouette Score: {}'.format(scores_df.loc['Baseline', 'Silhouette']))
     print('Hopkins Score: ',scores_df.loc['Baseline', 'Hopkins'])
     print('Data Size: ',scores_df.loc['Baseline', 'Data Size'])
-    acc_score(files_df,count,labels_base,'Baseline')
+    acc_score(files_df,count,labels_base,scores_df,'Baseline')
     return scores_df
 
 def pca_test(files_df,count,base_df,scores_df):
@@ -127,7 +127,7 @@ def pca_test(files_df,count,base_df,scores_df):
     print('KMeans Silhouette Score: {}'.format(scores_df.loc['PCA', 'Silhouette']))
     print('Hopkins Score: ',scores_df.loc['PCA', 'Hopkins'])
     print('Data Size: ',scores_df.loc['PCA', 'Data Size'])
-    acc_score(files_df,count,labels_pca,'PCA')
+    acc_score(files_df,count,labels_pca,scores_df,'PCA')
     return scores_df
 
 def tsne_test(files_df,count,base_df,scores_df):
@@ -147,7 +147,7 @@ def tsne_test(files_df,count,base_df,scores_df):
     print('KMeans Scaled Silhouette Score: {}'.format(scores_df.loc['t-SNe', 'Silhouette']))
     print('Hopkins Score: ',scores_df.loc['t-SNe', 'Hopkins'])
     print('Data Size: ',scores_df.loc['t-SNe', 'Data Size'])
-    acc_score(files_df,count,labels_tsne,'t-SNe')
+    acc_score(files_df,count,labels_tsne,scores_df,'t-SNe')
     return scores_df
 
 def pca_tsne_test(files_df,count,base_df,scores_df):
@@ -172,11 +172,11 @@ def pca_tsne_test(files_df,count,base_df,scores_df):
     print('KMeans Scaled Silhouette Score: {}'.format(scores_df.loc['PCA + t-SNe', 'Silhouette']))
     print('Hopkins Score: ',scores_df.loc['PCA + t-SNe', 'Hopkins'])
     print('Data Size: ',scores_df.loc['PCA + t-SNe', 'Data Size'])
-    acc_score(files_df,count,labels_tsne_pca,'PCA + t-SNe')
+    acc_score(files_df,count,labels_tsne_pca,scores_df,'PCA + t-SNe')
 
     return scores_df
 
-def acc_score(df,count,preds,model):
+def acc_score(df,count,preds,scores_df,model):
     # from https://smorbieu.gitlab.io/accuracy-from-classification-to-clustering-evaluation/
 
     df['cluster'] = preds
