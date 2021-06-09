@@ -8,7 +8,6 @@
 
 import pandas as pd
 import numpy as np
-from PIL import Image
 
 import argparse
 import sys
@@ -204,44 +203,19 @@ def acc_score(df,count,preds,scores_df,model):
     print("Adj Rand Score: ",scores_df.loc[model, 'Adj Rand'])
 
 def main(args):
-    """
-    Main testing script that will initialize all models and run inference on a raw test set
-    """
 
-    # # process arguments
     args = parse_arguments(args)
-
-    # # check if ZOO is given
-    # if not args.ZOO:
-    #     raise RuntimeError('Please specify the path to your ZOO directory by using: --ZOO=/path/to/ZOO')
-
-    # # check if bags is given
-    # if not args.bags:
-    #     raise RuntimeError('Please specify the path to your bag directory by using: --bags=/path/to/bags')
-
-    # # get the data file
-    # bag_path = args.bags
-
-    # # get all files from the bag path
-    # bags = [bag_path + '/' + f for f in listdir(bag_path) if isfile(join(bag_path, f))]
-
-    # # initialize a detection model
-    # model = RetinaNet(args.ZOO + '/RetinaNet/flowers/flower_detector_v1.pth')
-
 
     # input_path = "data/minneapple/train/images"
     # data_path = "data/minneapple/"
     data_path = args.data_path
 
-    # files = os.listdir(input_path)
     files_df = pd.read_csv (data_path + 'vectors/res18_vector_matrix_train_filenames.csv')
     vec_mat = np.load(data_path + 'vectors/res18_vector_matrix_train.npy')
     base_df = pd.DataFrame(data=vec_mat)
 
     count = pd.read_csv(data_path + "count/count.csv",header=None)
     count.columns = ['filename','obj_count']
-
-
 
     d = {'Model':["Baseline","PCA","t-SNe","PCA + t-SNe"],'Hopkins':[0,0,0,0],'Silhouette':[0,0,0,0],'Acc':[0,0,0,0],'Rand':[0,0,0,0],'Adj Rand':[0,0,0,0],'Data Size':[0,0,0,0]}
     scores_df = pd.DataFrame(data=d)
