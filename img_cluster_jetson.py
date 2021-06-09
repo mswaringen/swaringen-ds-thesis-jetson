@@ -13,6 +13,7 @@ from PIL import Image
 import argparse
 import sys
 import os
+import time
 
 from sklearn.cluster import KMeans
 from sklearn.preprocessing import StandardScaler
@@ -75,19 +76,13 @@ def parse_arguments(args):
 
     # parse incoming information
     parser = argparse.ArgumentParser(
-        description='Test file for testing the RetinaNet. ZOO path is required to load pretrained model.'
+        description='Test file for testing on Jetson devices. Data path is required.'
     )
     parser.add_argument(
-        '--ZOO',
+        '--data',
         type=str,
         default=None,
-        help='absolute path to the ZOO directory'
-    )
-    parser.add_argument(
-        '--bags',
-        type=str,
-        default=None,
-        help='path to the directory holding the bag files to be checked'
+        help='absolute path to the data directory'
     )
 
     args = parser.parse_args(args)
@@ -234,7 +229,9 @@ def main(args):
     # model = RetinaNet(args.ZOO + '/RetinaNet/flowers/flower_detector_v1.pth')
 
 
-    input_path = "data/minneapple/train/images"
+    # input_path = "data/minneapple/train/images"
+    input_path= args.data
+
     files = os.listdir(input_path)
     files_df = pd.read_csv (r'data/minneapple/vectors/res18_vector_matrix_train_filenames.csv')
 
@@ -249,10 +246,26 @@ def main(args):
     scores_df = pd.DataFrame(data=d)
     scores_df.set_index('Model',inplace=True)
 
+    t0 = time.time()
     scores_df = baseline_test(files_df.copy(),count,base_df,scores_df)
+    t1 = time.time() - t0
+    print("Time: ", t1,"seconds")
+
+    t0 = time.time()
     scores_df = pca_test(files_df.copy(),count,base_df,scores_df)
+    t1 = time.time() - t0
+    print("Time: ", t1,"seconds")
+
+    t0 = time.time()
     scores_df = tsne_test(files_df.copy(),count,base_df,scores_df)
+    t1 = time.time() - t0
+    print("Time: ", t1,"seconds")
+
+    t0 = time.time()
     scores_df = pca_tsne_test(files_df.copy(),count,base_df,scores_df)
+    t1 = time.time() - t0
+    print("Time: ", t1,"seconds")
+
     print(" ")
     print("---SUMMARY---")
     print(scores_df.to_string())
