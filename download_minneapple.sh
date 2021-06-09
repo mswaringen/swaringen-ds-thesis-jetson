@@ -66,6 +66,7 @@ if [ -z "$(ls -A data/minneapple)" ]; then
 
     mkdir -p data/minneapple/vectors
     mkdir -p data/minneapple/count
+    
     cp swaringen-ds-thesis-jetson/count.csv data/minneapple/count/count.csv
 
 else
