@@ -44,7 +44,8 @@ def img_2_vec(data_path):
     from img_to_vec import Img2Vec
 
     # data_path = "data/minneapple/train/images"
-    files = os.listdir(data_path + "train/images")
+    input_path = data_path + "train/images"
+    files = os.listdir(input_path)
 
     img2vec = Img2Vec()
     vec_length = 512  # Using resnet-18 as default
