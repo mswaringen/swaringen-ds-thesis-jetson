@@ -13,9 +13,9 @@ Refactored vector extraction + clustering for use on Jetson Nano
 `swaringen-ds-thesis-jetson/download_minneapple.sh`
 
 #### Extract Image Vectors
-`python swaringen-ds-thesis-jetson/vec_extract_jetson.py --data_path DATA_PATH`
+`python swaringen-ds-thesis-jetson/vec_extract_jetson.py --data_path data/minneapple/`
 
 #### Cluster Images
-`python swaringen-ds-thesis-jetson/img_cluster_jetson.py --data_path DATA_PATH`
+`python swaringen-ds-thesis-jetson/img_cluster_jetson.py --data_path data/minneapple/`
 
 
