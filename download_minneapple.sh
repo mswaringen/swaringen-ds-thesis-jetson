@@ -57,7 +57,8 @@ if [ -z "$(ls -A data/minneapple)" ]; then
     printf "\n"
 
     # alter the file structure to our liking
-    mv data/minneapple/detection/* data/minneapple/
+    mv detection/train data/minneapple/train
+    mv detection/test data/minneapple/test
 
     # remove used files
     rm -r detection
