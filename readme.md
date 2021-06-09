@@ -11,7 +11,7 @@ Refactored vector extraction + clustering for use on Jetson Nano
 TODO
 
 #### Extract Image Vectors
-TO REFACTOR
+`python swaringen-ds-thesis-jetson/vec_extract_jetson.py --data_path DATA_PATH`
 
 #### Cluster Images
 `python swaringen-ds-thesis-jetson/img_cluster_jetson.py --data_path DATA_PATH`
