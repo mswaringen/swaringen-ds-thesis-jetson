@@ -79,7 +79,7 @@ def parse_arguments(args):
         description='Test file for testing on Jetson devices. Data path is required.'
     )
     parser.add_argument(
-        '--data',
+        '--data_path',
         type=str,
         default=None,
         help='absolute path to the data directory'
@@ -209,7 +209,7 @@ def main(args):
     """
 
     # # process arguments
-    # args = parse_arguments(args)
+    args = parse_arguments(args)
 
     # # check if ZOO is given
     # if not args.ZOO:
@@ -230,17 +230,18 @@ def main(args):
 
 
     # input_path = "data/minneapple/train/images"
-    input_path= args.data
+    # data_path = "data/minneapple/"
+    data_path = args.data_path
 
-    files = os.listdir(input_path)
-    files_df = pd.read_csv (r'data/minneapple/vectors/res18_vector_matrix_train_filenames.csv')
+    # files = os.listdir(input_path)
+    files_df = pd.read_csv (data_path + 'vectors/res18_vector_matrix_train_filenames.csv')
+    vec_mat = np.load(data_path + 'vectors/res18_vector_matrix_train.npy')
+    base_df = pd.DataFrame(data=vec_mat)
 
-    count = pd.read_csv("data/minneapple/count/count.csv",header=None)
+    count = pd.read_csv(data_path + "count/count.csv",header=None)
     count.columns = ['filename','obj_count']
 
-    vec_mat = np.load('data/minneapple/vectors/res18_vector_matrix_train.npy')
-    df = pd.read_csv (r'data/minneapple/vectors/res18_vector_matrix_train_filenames.csv')   
-    base_df = pd.DataFrame(data=vec_mat)
+
 
     d = {'Model':["Baseline","PCA","t-SNe","PCA + t-SNe"],'Hopkins':[0,0,0,0],'Silhouette':[0,0,0,0],'Acc':[0,0,0,0],'Rand':[0,0,0,0],'Adj Rand':[0,0,0,0],'Data Size':[0,0,0,0]}
     scores_df = pd.DataFrame(data=d)
