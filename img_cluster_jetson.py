@@ -103,6 +103,7 @@ def baseline_test(files_df,count,base_df,scores_df):
     scores_df.loc['Baseline', 'Silhouette'] = silhouette_score(base_df, kmeans_base.labels_, metric='cosine')
     scores_df.loc['Baseline', 'Data Size'] = sum(clusters_base.memory_usage(deep=True))/1000000
 
+    print(' ')
     print('---BASELINE---')
     print('KMeans Silhouette Score: {}'.format(scores_df.loc['Baseline', 'Silhouette']))
     print('Hopkins Score: ',scores_df.loc['Baseline', 'Hopkins'])
@@ -123,6 +124,7 @@ def pca_test(files_df,count,base_df,scores_df):
     scores_df.loc['PCA', 'Silhouette'] = silhouette_score(pca_df, kmeans_pca.labels_, metric='cosine')
     scores_df.loc['PCA', 'Data Size'] = sum(clusters_pca.memory_usage(deep=True))/1000000
 
+    print(' ')
     print('---PCA---')
     print('KMeans Silhouette Score: {}'.format(scores_df.loc['PCA', 'Silhouette']))
     print('Hopkins Score: ',scores_df.loc['PCA', 'Hopkins'])
@@ -131,6 +133,8 @@ def pca_test(files_df,count,base_df,scores_df):
     return scores_df
 
 def tsne_test(files_df,count,base_df,scores_df):
+    print(' ')
+    print('---TSNE---')
     tsne = TSNE(n_components=3, verbose=1, perplexity=15, n_iter=2000, learning_rate=200,early_exaggeration=4,metric="cosine",init="pca",random_state=42)
     tsne_results = tsne.fit_transform(base_df)
     tsne_df = pd.DataFrame(tsne_results, columns=['tsne1', 'tsne2', 'tsne3'])
@@ -143,7 +147,7 @@ def tsne_test(files_df,count,base_df,scores_df):
     scores_df.loc['t-SNe', 'Silhouette'] = silhouette_score(tsne_df, kmeans_tsne.labels_, metric='cosine')
     scores_df.loc['t-SNe', 'Data Size'] = sum(clusters_tsne.memory_usage(deep=True))/1000000
 
-    print('---TSNE---')
+
     print('KMeans Scaled Silhouette Score: {}'.format(scores_df.loc['t-SNe', 'Silhouette']))
     print('Hopkins Score: ',scores_df.loc['t-SNe', 'Hopkins'])
     print('Data Size: ',scores_df.loc['t-SNe', 'Data Size'])
@@ -151,6 +155,8 @@ def tsne_test(files_df,count,base_df,scores_df):
     return scores_df
 
 def pca_tsne_test(files_df,count,base_df,scores_df):
+    print(' ')
+    print('---PCA + TSNE---')
     # PCA
     pca_tsne = PCA(n_components=20)
     pca_tsne_trans = pca_tsne.fit_transform(base_df)
@@ -247,9 +253,9 @@ def main(args):
     scores_df = pca_test(files_df.copy(),count,base_df,scores_df)
     scores_df = tsne_test(files_df.copy(),count,base_df,scores_df)
     scores_df = pca_tsne_test(files_df.copy(),count,base_df,scores_df)
-
+    print(" ")
     print("---SUMMARY---")
-    print(scores_df)
+    print(scores_df.to_string())
 
 if __name__ == "__main__":
     main(sys.argv[1:])
