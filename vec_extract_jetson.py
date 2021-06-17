@@ -33,17 +33,23 @@ def parse_arguments(args):
         default=None,
         help='absolute path to the data directory'
     )
+    parser.add_argument(
+        '--cuda',
+        type=bool,
+        default=False,
+        help='True to run on GPU'
+    )
 
     args = parser.parse_args(args)
 
     return args
 
-def img_2_vec(files,input_path):
+def img_2_vec(files,input_path,cuda):
     os.system('git clone "https://github.com/christiansafka/img2vec.git"')
     sys.path.append("img2vec/img2vec_pytorch")
     from img_to_vec import Img2Vec
 
-    img2vec = Img2Vec()
+    img2vec = Img2Vec(cuda=cuda)
     vec_length = 512  # Using resnet-18 as default
     samples = 670  # Amount of samples to take from input path
 
@@ -74,13 +80,14 @@ def main(args):
     # input_path = "data/minneapple/train/images"
     # data_path = "data/minneapple/"
     data_path = args.data_path
+    cuda = args.cuda
 
     # data_path = "data/minneapple/train/images"
     input_path = data_path + "train/images"
     files = os.listdir(input_path)
 
     t0 = time.time()
-    df,vec_mat = img_2_vec(files,input_path)
+    df,vec_mat = img_2_vec(files,input_path,cuda)
     t1 = time.time() - t0
     print("Time: ", t1,"seconds")
     print("Embeddings extracted: ", len(files))
