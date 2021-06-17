@@ -38,7 +38,7 @@ def parse_arguments(args):
 
     return args
 
-def img_2_vec(files):
+def img_2_vec(files,input_path):
     os.system('git clone "https://github.com/christiansafka/img2vec.git"')
     sys.path.append("img2vec/img2vec_pytorch")
     from img_to_vec import Img2Vec
@@ -80,7 +80,7 @@ def main(args):
     files = os.listdir(input_path)
 
     t0 = time.time()
-    df,vec_mat = img_2_vec(files)
+    df,vec_mat = img_2_vec(files,input_path)
     t1 = time.time() - t0
     print("Time: ", t1,"seconds")
     print("Embeddings extracted: ", len(files))
