@@ -38,14 +38,10 @@ def parse_arguments(args):
 
     return args
 
-def img_2_vec(data_path):
+def img_2_vec(files):
     os.system('git clone "https://github.com/christiansafka/img2vec.git"')
     sys.path.append("img2vec/img2vec_pytorch")
     from img_to_vec import Img2Vec
-
-    # data_path = "data/minneapple/train/images"
-    input_path = data_path + "train/images"
-    files = os.listdir(input_path)
 
     img2vec = Img2Vec()
     vec_length = 512  # Using resnet-18 as default
@@ -79,8 +75,16 @@ def main(args):
     # data_path = "data/minneapple/"
     data_path = args.data_path
 
-    df,vec_mat = img_2_vec(data_path)
-    # !mkdir data/minneapple/vectors
+    # data_path = "data/minneapple/train/images"
+    input_path = data_path + "train/images"
+    files = os.listdir(input_path)
+
+    t0 = time.time()
+    df,vec_mat = img_2_vec(files)
+    t1 = time.time() - t0
+    print("Time: ", t1,"seconds")
+    print("Embeddings extracted: ", len(files))
+    
     df.to_csv(data_path + 'vectors/res18_vector_matrix_train_filenames.csv',index=False)
     np.save(data_path + 'vectors/res18_vector_matrix_train.npy', vec_mat)
     print('Vectors saved!')
