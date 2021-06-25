@@ -52,7 +52,7 @@ def parse_arguments(args):
         help='model layer'
     )
     parser.add_argument(
-        '--vec-length',
+        '--vec_length',
         type=str,
         default=None,
         help='vector length for model'
@@ -100,7 +100,7 @@ def main(args):
     cuda = args.cuda
     model_name = args.model
     layer = args.layer
-    vec_length = args.vec-length
+    vec_length = args.vec_length
 
     # data_path = "data/minneapple/train/images"
     input_path = data_path + "train/images"
