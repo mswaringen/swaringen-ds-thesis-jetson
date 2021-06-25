@@ -45,13 +45,13 @@ def parse_arguments(args):
         default=False,
         help='resnet model'
     )
-        parser.add_argument(
+    parser.add_argument(
         '--layer',
         type=bool,
         default=False,
         help='model layer'
     )
-        parser.add_argument(
+    parser.add_argument(
         '--vec-length',
         type=bool,
         default=False,
