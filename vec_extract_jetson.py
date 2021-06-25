@@ -67,7 +67,7 @@ def img_2_vec(files,input_path,cuda,model_name,layer,vec_length):
     from img_to_vec import Img2Vec
 
     img2vec = Img2Vec(model=model_name,cuda=cuda,layer=layer, layer_output_size=vec_length)
-    img2vec = Img2Vec(cuda=cuda)
+    # img2vec = Img2Vec(cuda=cuda)
     # vec_length = 512  # Using resnet-18 as default
     samples = 670  # Amount of samples to take from input path
 
