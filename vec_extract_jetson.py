@@ -36,25 +36,25 @@ def parse_arguments(args):
     parser.add_argument(
         '--cuda',
         type=bool,
-        default=False,
+        default=None,
         help='True to run on GPU'
     )
     parser.add_argument(
         '--model',
-        type=bool,
-        default=False,
+        type=str,
+        default=None,
         help='resnet model'
     )
     parser.add_argument(
         '--layer',
-        type=bool,
-        default=False,
+        type=str,
+        default=None,
         help='model layer'
     )
     parser.add_argument(
         '--vec-length',
-        type=bool,
-        default=False,
+        type=str,
+        default=None,
         help='vector length for model'
     )
     args = parser.parse_args(args)
