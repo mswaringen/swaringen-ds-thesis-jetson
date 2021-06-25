@@ -53,7 +53,7 @@ def parse_arguments(args):
     )
     parser.add_argument(
         '--vec_length',
-        type=str,
+        type=int,
         default=None,
         help='vector length for model'
     )
