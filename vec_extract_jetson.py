@@ -39,18 +39,36 @@ def parse_arguments(args):
         default=False,
         help='True to run on GPU'
     )
-
+    parser.add_argument(
+        '--model',
+        type=bool,
+        default=False,
+        help='resnet model'
+    )
+        parser.add_argument(
+        '--layer',
+        type=bool,
+        default=False,
+        help='model layer'
+    )
+        parser.add_argument(
+        '--vec-length',
+        type=bool,
+        default=False,
+        help='vector length for model'
+    )
     args = parser.parse_args(args)
 
     return args
 
-def img_2_vec(files,input_path,cuda):
+def img_2_vec(files,input_path,cuda,model_name,layer,vec_length):
     os.system('git clone "https://github.com/christiansafka/img2vec.git"')
     sys.path.append("img2vec/img2vec_pytorch")
     from img_to_vec import Img2Vec
 
+    img2vec = Img2Vec(model=model_name,cuda=cuda,layer=layer, layer_output_size=vec_length)
     img2vec = Img2Vec(cuda=cuda)
-    vec_length = 512  # Using resnet-18 as default
+    # vec_length = 512  # Using resnet-18 as default
     samples = 670  # Amount of samples to take from input path
 
     vec_mat = np.zeros((samples, vec_length))
@@ -68,7 +86,6 @@ def img_2_vec(files,input_path,cuda):
         new_row = {'filename':filename, 'sample_indices':i}
         df = df.append(new_row, ignore_index=True)
 
-    print('Vectors created!')
     df['sample_indices'] = df['sample_indices'].astype(int)
 
     return df,vec_mat
@@ -81,20 +98,25 @@ def main(args):
     # data_path = "data/minneapple/"
     data_path = args.data_path
     cuda = args.cuda
+    model_name = args.model
+    layer = args.layer
+    vec_length = args.vec-length
 
     # data_path = "data/minneapple/train/images"
     input_path = data_path + "train/images"
     files = os.listdir(input_path)
 
     t0 = time.time()
-    df,vec_mat = img_2_vec(files,input_path,cuda)
+    df,vec_mat = img_2_vec(files,input_path,cuda,model_name,layer,vec_length)
     t1 = time.time() - t0
+    print('Vectors created!')
     print("Time: ", t1,"seconds")
     print("Embeddings extracted: ", len(files))
-    
-    df.to_csv(data_path + 'vectors/res18_vector_matrix_train_filenames.csv',index=False)
-    np.save(data_path + 'vectors/res18_vector_matrix_train.npy', vec_mat)
-    print('Vectors saved!')
+    print(model_name, layer)
+
+    # df.to_csv(data_path + 'vectors/res18_vector_matrix_train_filenames.csv',index=False)
+    # np.save(data_path + 'vectors/res18_vector_matrix_train.npy', vec_mat)
+    # print('Vectors saved!')
 
 if __name__ == "__main__":
     main(sys.argv[1:])
